@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic.xyz Test Environment</title>
+</head>
+<body>
+    <button id="openModalButton">Open Modal</button>
+
+    <script src="https://yousefacv.github.io/dynamic-integration/dist/bundle.js"></script>
+    <script>
+        // Test button to manually trigger the modal
+        document.getElementById('openModalButton').addEventListener('click', function() {
+            window.dispatchEvent(new Event("openDynamicModal"));
+        });
+    </script>
+</body>
+</html>

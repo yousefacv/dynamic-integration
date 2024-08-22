@@ -1,30 +1,46 @@
-import React, { useEffect } from "react";
 import { DynamicContextProvider, useDynamicContext } from "@dynamic-labs/sdk-react-core";
+import React, { useEffect } from "react";
+import ReactDOM from "react-dom";
 
+// Set up the environment ID for Dynamic.xyz
 const environmentId = "7ec93c10-e380-47f9-87e0-cdbf55723eac";
 
-function DynamicModalTrigger() {
-    const { openModal } = useDynamicContext();
+function DynamicIntegration() {
+    const context = useDynamicContext();
 
     useEffect(() => {
-        const handleButtonClick = () => {
-            openModal();
+        console.log("DynamicIntegration useEffect triggered");
+
+        if (!context || !context.client) {
+            console.error("DynamicContext or client is not available");
+            return;
+        }
+
+        const handleModalOpen = () => {
+            console.log("openDynamicModal event detected");
+
+            try {
+                context.client.ui.auth.show(); // Attempt to open the auth modal
+                console.log("Authentication modal should have opened");
+            } catch (error) {
+                console.error("Failed to open authentication modal:", error);
+            }
         };
 
-        window.addEventListener("openDynamicModal", handleButtonClick);
+        window.addEventListener("openDynamicModal", handleModalOpen);
 
         return () => {
-            window.removeEventListener("openDynamicModal", handleButtonClick);
+            window.removeEventListener("openDynamicModal", handleModalOpen);
         };
-    }, [openModal]);
+    }, [context]);
 
-    return null; // This component doesn't render anything by itself
+    return null; // This component does not render anything by itself
 }
 
-export default function DynamicIntegration() {
-    return (
-        <DynamicContextProvider environmentId={environmentId}>
-            <DynamicModalTrigger />
-        </DynamicContextProvider>
-    );
-}
+// Render the DynamicIntegration component
+ReactDOM.render(
+    <DynamicContextProvider environmentId={environmentId}>
+        <DynamicIntegration />
+    </DynamicContextProvider>,
+    document.getElementById('root') || document.createElement('div')
+);
