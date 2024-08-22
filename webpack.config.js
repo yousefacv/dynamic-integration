@@ -1,7 +1,8 @@
 const path = require("path");
 
 module.exports = {
-    entry: "./src/DynamicIntegration.js", // Make sure this path matches where your component is
+    mode: "development", // Set mode to 'development' or 'production' as needed
+    entry: "./src/DynamicIntegration.js",
     output: {
         filename: "bundle.js",
         path: path.resolve(__dirname, "dist"),
